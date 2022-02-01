@@ -11,10 +11,6 @@ id_list = [
 
 test = 'test'
 for i in id_list : 
-    commande = "python downloader.py --youtubeid " + i + " --output " + test +".json"
+    commande = "youtube-comment-downloader --youtubeid " + i + " --output " + test +".json"
     #print(commande)
     os.system(commande)
-
-#if __name__ == '__main__':
-
-   # main()c
