@@ -1,6 +1,5 @@
 from pymongo import MongoClient # import to communicate with de Mongo database 
 
-
 # function to connect to the database
 def connect(login,password):
     pass 
