@@ -3,3 +3,5 @@
 .DS_Store
 test.py
 *.json
+*.xlsx
+__pycache__
