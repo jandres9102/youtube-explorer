@@ -4,6 +4,11 @@ from lecteur import *
 import os 
 import json 
 import youtube_dl 
+import datetime
+
+
+
+
 
 #reading of meta-key
 with open("meta-key.txt",'r') as kaka :
@@ -30,7 +35,8 @@ def main():
                 if key not in meta.keys():
                     temp_dict[key]=None
                 else:
-                    temp_dict[key]=meta[key]   
+                    temp_dict[key]=meta[key]
+            temp_dict['date'] = datetime.datetime.today().strftime('%Y/%m/%d')  
             store_data(col3,temp_dict)
                 
             # put the meta data 
