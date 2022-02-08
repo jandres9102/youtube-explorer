@@ -1,6 +1,8 @@
 import os, json 
 from database import *
 
+
+
 # .find({},{"id":1,""})
 
 db, col2 = connect('db','commentaire')
