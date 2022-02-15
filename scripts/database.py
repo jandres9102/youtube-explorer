@@ -1,7 +1,7 @@
 from pymongo import MongoClient # import to communicate with de Mongo database 
 
 
-client = MongoClient(host="localhost",port=27017)
+client = MongoClient(host="db",port=27017)
 
 # function to connect to the database
 def connect(db_name,col_name):
