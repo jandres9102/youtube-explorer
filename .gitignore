@@ -3,4 +3,5 @@
 test.py
 *.json
 *.xlsx
-__pycache
+__pycache__
+keys.txt
