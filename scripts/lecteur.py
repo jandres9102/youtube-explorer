@@ -1,6 +1,8 @@
 import pandas as pd
+import numpy as np
 from database import *
 from pathlib import Path
+import datetime
 
 db,col = connect('db','id')
 #os.path.abspath('2021_10_08_video_ids.csv')
@@ -14,3 +16,10 @@ for idx in csv_read['video_id'][:10] :
 if __name__ == "__main__":
      print(list(col.find()))
 # col.drop()
+
+csv_read['last_inspection_date'] = np.NaN
+csv_read['debug_msg'] = np.NaN
+csv_read['warning_msg'] = np.NaN
+csv_read['error_msg'] = np.NaN
+csv_read.to_csv('logger_'+datetime.datetime.today().strftime('%Y-%m-%d'), index=False)
+
