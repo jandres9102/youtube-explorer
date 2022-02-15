@@ -1,0 +1,13 @@
+version: '2'
+
+services:
+  db : 
+    image: mongo
+    restart: always 
+    
+  python_app: 
+    build :
+      context : .
+      dockerfile : Dockerfile
+    depends_on:
+      - db
