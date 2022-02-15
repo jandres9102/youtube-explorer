@@ -1,17 +1,7 @@
-## Downoloader comment 
-import os
-import sys
+import comment as c # import function to download comments
+import script as sc # import function to download meta-data
+import lecteur # import function to populate db 
 
-
-#liste des id des vidéos 
-id_list = [
-        'L-CYdL7NksA',
-        'eiLo-Xqrc_w'
-]
-
-# nom de notre fichier json qui récupere les infos
-test = 'test'
-for i in id_list : 
-    commande = "youtube-comment-downloader --youtubeid " + i + " --output " + test +".json"
-    #print(commande)
-    os.system(commande)
+if __name__ == "__main__":
+	c.main() #function to  download comment
+	sc.main() #function to download meta-data 

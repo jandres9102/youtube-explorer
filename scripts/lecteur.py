@@ -11,6 +11,6 @@ csv_read = pd.read_csv(Path('scripts/2021_10_08_video_ids.csv').absolute(), sep 
 for idx in csv_read['video_id'][:10] :
      store_data(col,{"id":idx})
 
-
-print(list(col.find()))
+if __name__ == "__main__":
+     print(list(col.find()))
 # col.drop()
