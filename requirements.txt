@@ -1,3 +1,4 @@
 pymongo 
 youtube-dl 
 pandas
+future
