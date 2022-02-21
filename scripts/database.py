@@ -1,13 +1,14 @@
 from pymongo import MongoClient # import to communicate with de Mongo database 
 
 
-client = MongoClient(host="db",port=27017)
+
 
 # function to connect to the database
-def connect(db_name,col_name):
+def connect(db_name,col_name,host="db",port=27017):
+    client = MongoClient(host,port)
     db = client[db_name]
     col = db[col_name]
-    return db,col
+    return col
 
 # function to retrieve video's id 
 def get_id(col):
@@ -20,6 +21,8 @@ def get_id(col):
 def store_data(col,insert_values):
     col.insert_one(insert_values)
 
-
+# function to updtate a given value in the Mongo database 
+def update_data(col,video_id,field,value):
+    col.find_one_and_update({"id" : video_id},{"$set" : {field:value}},upsert=True)
 
 
