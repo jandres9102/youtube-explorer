@@ -1,10 +1,13 @@
 from __future__ import unicode_literals
 from database import *
 from lecteur import *
+from logger import MyLogger
+import pandas as pd
 import os
 import json
 import youtube_dl
 import datetime
+import time
 
 
 
@@ -22,10 +25,17 @@ col3.drop()
 def main():
     id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
+    log = MyLogger()
     ydl_opts = {}
+    ydl_opts['logger'] = log
     failed_videos=[]
+    count_line=0
+    logger_filename= 'logger_'+datetime.datetime.today().strftime('%Y-%m-%d')
+    lf= pd.read_csv(logger_filename)
+    print(len(id_list))
     for elt in id_list : # loop through all id
         try:
+            print (elt)
             working_url = base_url + elt["id"] # create a link with base_url and the id
             # downloading meta data for the video
             with youtube_dl.YoutubeDL(ydl_opts) as ydl :
@@ -42,9 +52,20 @@ def main():
             # put the meta data
         except Exception as err:
             failed_videos.append({'id':elt,'error':str(err)})
-
+            print('faillllllllllllllllllllllllllllllllllllll'+log.get_error_msg())
+        lf['last_inspection_date'][count_line] = time.time()
+        lf['debug_msg'][count_line] = log.get_debug_msg()
+        lf['warning_msg'][count_line] = log.get_warning_msg()
+        lf['error_msg'][count_line] = log.get_error_msg()
+        count_line = count_line+1
+        if (count_line%10 == 0):
+            lf.to_csv(logger_filename, index=False)
+            print('tesr')
+        print(log.get_all_msg())
+        log.reset()
     # print(list(col3.find()))
     return 0
+
 
 if __name__ == "__main__" :
     main()
