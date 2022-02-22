@@ -10,7 +10,7 @@ csv_read = pd.read_csv(Path('scripts/2021_10_08_video_ids.csv').absolute(), sep 
 
 col.drop()
 
-for idx in csv_read['video_id'][:10] :
+for idx in csv_read['video_id'] :
      store_data(col,{"id":idx,"status":"ongoing"}) # status will be used to know if we download data 
 
 if __name__ == "__main__":
