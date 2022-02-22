@@ -22,10 +22,9 @@ def main():
     col3.drop() # à enlever ? 
     id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
-    
-    # log = MyLogger()
-    ydl_opts = {}
-    # ydl_opts['logger'] = log
+
+    ydl_opts = {'outtmpl': './downloadedsongs/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
+
     failed_videos=[]
     count_line=0
     # logger_filename= 'logger_'+datetime.datetime.today().strftime('%Y-%m-%d')
@@ -37,7 +36,7 @@ def main():
             working_url = base_url + elt["id"] # create a link with base_url and the id
             # downloading meta data for the video
             with youtube_dl.YoutubeDL(ydl_opts) as ydl :
-                meta = ydl.extract_info(working_url,download=False)
+                meta = ydl.extract_info(working_url,download=False) # put True if we want to download the video too 
             temp_dict = dict()
             # keep only the needed data
             for key in meta_key:
