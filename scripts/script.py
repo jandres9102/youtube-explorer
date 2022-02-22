@@ -22,14 +22,14 @@ col3.drop()
 def main():
     id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
-    ydl_opts = {}
+    ydl_opts = {'outtmpl': './downloadedsongs/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
     failed_videos=[]
     for elt in id_list : # loop through all id
         try:
             working_url = base_url + elt["id"] # create a link with base_url and the id
             # downloading meta data for the video
             with youtube_dl.YoutubeDL(ydl_opts) as ydl :
-                meta = ydl.extract_info(working_url,download=False)
+                meta = ydl.extract_info(working_url,download=False) # put True if we want to download the video too 
             temp_dict = dict()
             for key in meta_key:
                 if key not in meta.keys():
