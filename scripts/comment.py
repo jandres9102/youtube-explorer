@@ -1,12 +1,12 @@
 import os, json 
 from database import *
+import datetime
 
-# .find({},{"id":1,""})
-
-db, col2 = connect('db','commentaire')
 
 def main():
-    db,col = connect('db','id')
+    col2 = connect('db','commentaire')
+    col2.drop()
+    col = connect('db','id')
     id_list = get_id(col)
     result_list = [] # list to see the result
     for elt in id_list:
@@ -21,14 +21,13 @@ def main():
             # convert the string to a json 
             temp = json.loads(line)
             # gather only the required information (comment id, the comment and the votes)
-            temp_dict = {"comment_id" : temp["cid"],"texte" : temp["text"],"votes" : temp["votes"]}
-            #
+            temp_dict = {"comment_id" : temp["cid"],"texte" : temp["text"],"votes" : temp["votes"],"date": datetime.datetime.today().strftime('%Y/%m/%d')}
+            # inserting all the comments into the db 
             store_data(col2,temp_dict)
-            # code to insert this json to the mongodatabase
-            result_list.append(temp_dict) # temporary 
-    return result_list
+            
+    return 0
 
 if __name__=="__main__": 
     main()
-    print(list(col2.find()))
+    
 

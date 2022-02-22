@@ -5,4 +5,5 @@ test.py
 *.xlsx
 __pycache__
 keys.txt
+scripts/comments.txt
 
