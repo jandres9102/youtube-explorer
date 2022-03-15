@@ -9,7 +9,6 @@ def main(file_number = 10):
     col = connect('db','id')
     id_list = get_id(col)
     line_to_process = col.count_documents({'status_commentaire':"0"})
-    
     while line_to_process > 0:
         # access to a random data from the database (should limit functions that try to acess to the same value )
         elt = list(col.aggregate([{ "$sample": { "size": 1 } }]))[0]
@@ -29,7 +28,7 @@ def main(file_number = 10):
                     temp_dict = {"video_id":elt["id"], "comment_id" : temp["cid"],"texte" : temp["text"],"votes" : temp["votes"],"date": datetime.datetime.today().strftime('%Y/%m/%d')}
                     # inserting all the comments into the db 
                     store_data(col2,temp_dict)
-                    update_data(col,elt['id'],"status_commentaire","1") # say we only downloaded the video
+                update_data(col,elt['id'],"status_commentaire","1") # say we only downloaded the video
                 # if elt["status"]=="ongoing": # case there was no processing on this video
                 #     update_data(col,elt['id'],"status","ongoing_commentaire") # say we only downloaded the video
                 # elif elt['status'] == "ongoing_video" : # case comment where processed
