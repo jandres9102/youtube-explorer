@@ -23,13 +23,12 @@ def main():
     col3.drop() # à enlever ? 
     id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
-    
-    # log = MyLogger()
-    ydl_opts = {}
-    # ydl_opts['logger'] = log
+
+    ydl_opts = {'outtmpl': './downloadedsongs/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
+
     failed_videos=[]
-    # count the number of video to process and the video where we only processed the comments
-    line_to_process = col.count_documents({'status':"ongoing"})+ col.count_documents({'status':"ongoing_commentaire"}) 
+    # count the number of video to process 
+    line_to_process = col.count_documents({'status_video':"0"})
     
     # count_line=0
     # logger_filename= 'logger_'+datetime.datetime.today().strftime('%Y-%m-%d')
@@ -39,7 +38,7 @@ def main():
     while line_to_process > 0:
         # access to a random data from the database (should limit functions that try to acess to the same value )
         elt = list(col.aggregate([{ "$sample": { "size": 1 } }]))[0]
-        if elt["status"] == "ongoing_commentaire" or elt["status"] == "ongoing":
+        if elt["status_video"] == "0":
             try:
                 working_url = base_url + elt["id"] # create a link with base_url and the id
                 # downloading meta data for the video
@@ -57,15 +56,16 @@ def main():
                 # add those data to the db 
                 store_data(col3,temp_dict)
                 # updtading the video status 
-                if elt['status'] == "ongoing" : # case there was no processing on this video
-                    update_data(col,elt['id'],"status","ongoing_video") # say we only downloaded the video
-                elif elt['status'] == "ongoing_commentaire" : # case comment where processed
-                    update_data(col,elt['id'],"status","done") # as we downloaded the video we put done here 
+                update_data(col,elt['id'],"status_video","1") # say we only downloaded the video
+                # if elt['status'] == "ongoing" : # case there was no processing on this video
+                #     update_data(col,elt['id'],"status","ongoing_video") # say we only downloaded the video
+                # elif elt['status'] == "ongoing_commentaire" : # case comment where processed
+                #     update_data(col,elt['id'],"status","done") # as we downloaded the video we put done here 
             except :
-                update_data(col,elt['id'],"status","error")
+                update_data(col,elt['id'],"status_video","2")
 
         # update the remainig value to process 
-        line_to_process = col.count_documents({'status':"ongoing"})+ col.count_documents({'status':"ongoing_commentaire"}) 
+        line_to_process = col.count_documents({'status_video':"0"}) 
        
         #     print('faillllllllllllllllllllllllllllllllllllll'+log.get_error_msg())
         # lf['last_inspection_date'][count_line] = time.time()
