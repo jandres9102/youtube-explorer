@@ -24,7 +24,7 @@ def main():
     id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
 
-    ydl_opts = {'outtmpl': './downloadedsongs/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
+    ydl_opts = {'outtmpl': './video/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
 
     failed_videos=[]
     # count the number of video to process 
@@ -38,12 +38,13 @@ def main():
     while line_to_process > 0:
         # access to a random data from the database (should limit functions that try to acess to the same value )
         elt = list(col.aggregate([{ "$sample": { "size": 1 } }]))[0]
-        if elt["status_video"] == "0":
+        update_data(col,elt['id'],"label",1)
+        if elt["status_video"] == "0" and elt["label"] == 0:
             try:
                 working_url = base_url + elt["id"] # create a link with base_url and the id
                 # downloading meta data for the video
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl :
-                    meta = ydl.extract_info(working_url,download=False)
+                    meta = ydl.extract_info(working_url,download=True)
                 temp_dict = dict()
                 # keep only the needed data
                 for key in meta_key:
