@@ -5,7 +5,7 @@ import datetime
 
 def main(file_number = 10):
     col2 = connect('db','commentaire')
-    col2.drop() # à enlever ? 
+    #col2.drop() # à enlever ? 
     col = connect('db','id')
     id_list = get_id(col)
     line_to_process = col.count_documents({'status_commentaire':"0"})
