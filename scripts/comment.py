@@ -33,7 +33,7 @@ def main(file_number = 10):
                 #     update_data(col,elt['id'],"status","ongoing_commentaire") # say we only downloaded the video
                 # elif elt['status'] == "ongoing_video" : # case comment where processed
                 #     update_data(col,elt['id'],"status","done") # as we downloaded the video we put done here 
-                line_to_process = col.count_documents({'status':"ongoing"})+ col.count_documents({'status':"ongoing_video"})
+                line_to_process = col.count_documents({'status_commentaire':"0"})
             except : 
                 update_data(col,elt['id'],"status_commentaire","2") # say we only downloaded the video 
     return 0
