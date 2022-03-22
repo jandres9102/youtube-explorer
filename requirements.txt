@@ -2,3 +2,4 @@ pymongo
 youtube-dl 
 pandas
 future
+bs4

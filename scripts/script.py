@@ -1,6 +1,9 @@
 from __future__ import unicode_literals
 from database import *
 from lecteur import *
+from bs4 import BeautifulSoup
+import urllib
+import re
 from logger import MyLogger
 import pandas as pd
 import os
@@ -9,24 +12,98 @@ import youtube_dl
 import datetime
 import time
 
+# function to download the vignette
+def download_vignette(youtube_id):
+    # Téléchargement du contenu HTML de la page
+    response = urllib.request.urlopen('https://www.youtube.com/watch?v=' + youtube_id)
+    htmlContent = response.read().decode('UTF-8')
 
+
+    # Extraction du contenu de la variable ytInitialPlayerResponse
+    soup = BeautifulSoup(htmlContent, "html.parser")
+    pattern = re.compile(r"^var ytInitialPlayerResponse = (.*?);$", re.MULTILINE | re.DOTALL)
+    script = soup.find("script", text=pattern)
+
+    ytInitialPlayerResponse = json.loads(pattern.search(script.text).group(1))
+
+
+    oRes = {}
+
+    oRes['title']= ytInitialPlayerResponse['videoDetails']['title']
+    oRes['video_duration']= int(ytInitialPlayerResponse['videoDetails']['lengthSeconds'])
+
+    tmpParams = ytInitialPlayerResponse['storyboards']['playerStoryboardSpecRenderer']['spec'].split("|")
+
+    base_url = tmpParams[0]
+    tmpParams = tmpParams[1:]
+
+    storyboards = []
+    for i in range(len(tmpParams)):
+        tmp_url = base_url.replace("$L", str(i))
+        tmpSbInfo = tmpParams[i].split("#")
+        sbInfo = {}
+        sbInfo['sub_image_width'] = int(tmpSbInfo[0])
+        sbInfo['sub_image_height'] = int(tmpSbInfo[1])
+        sbInfo['nb_total_sub_image'] = int(tmpSbInfo[2])
+        sbInfo['nb_col_by_image'] = int(tmpSbInfo[3])
+        sbInfo['nb_row_by_image'] = int(tmpSbInfo[4])
+        if int(tmpSbInfo[5]) == 0:
+            sbInfo['time_in_between'] = (oRes['video_duration']*1000)//sbInfo['nb_total_sub_image']
+        else:
+            sbInfo['time_in_between'] = int(tmpSbInfo[5])
+        image_file_name = tmpSbInfo[6]
+        sigh = tmpSbInfo[7]
+        
+        tmp_url = tmp_url.replace("$N", image_file_name) + "&sigh=" + sigh
+
+        images = []
+        nb_image = 0
+        nb_sub_images = 0
+        while nb_image*(sbInfo['nb_col_by_image']*sbInfo['nb_row_by_image']) < sbInfo['nb_total_sub_image']:
+            image = {}
+            image['url'] = tmp_url.replace("$M", str(nb_image))
+            sub_images = []
+            for row in range(sbInfo['nb_row_by_image']):
+                if(nb_sub_images > sbInfo['nb_total_sub_image']):
+                    continue
+                for col in range(sbInfo['nb_col_by_image']):
+                    if(nb_sub_images > sbInfo['nb_total_sub_image']):
+                        continue
+                    sub_image = {}
+                    sub_image['timecode'] = nb_sub_images*sbInfo['time_in_between']//1000
+                    crop={}
+                    crop['x_start'] = sbInfo['sub_image_width']*col
+                    crop['x_end'] = sbInfo['sub_image_width']*(col + 1)
+                    crop['y_start'] = sbInfo['sub_image_height']*row
+                    crop['y_end'] = sbInfo['sub_image_height']*(row + 1)
+                    sub_image['crop'] = crop
+                    sub_images.append(sub_image)
+                    nb_sub_images = nb_sub_images + 1
+                    
+            image['sub_images'] = sub_images
+            images.append(image)
+            nb_image = nb_image + 1
+        sbInfo['images'] = images
+        storyboards.append(sbInfo)
+        
+    oRes['storyboards'] = storyboards
+    return oRes
+
+# main function to download youtube meta and the vignette
 def main():
     #reading of meta-key
     with open("scripts/meta-key.txt",'r') as f :
         l = f.readlines()
     meta_key = [k.strip('\n') for k in l]
 
-    init = {'_id': "init_value", 'id': 'init_value', 'status': 'init_value'} # temp value to enter into the while loop
     col3 = connect('db','meta')
     col = connect('db','id')
     # main function to download all data
     col3.drop() # à enlever ? 
-    id_list = get_id(col)
     base_url = "https://www.youtube.com/watch?v="
 
     ydl_opts = {'outtmpl': './video/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
 
-    failed_videos=[]
     # count the number of video to process 
     line_to_process = col.count_documents({'status_video':"0"})
     
@@ -44,7 +121,7 @@ def main():
                 working_url = base_url + elt["id"] # create a link with base_url and the id
                 # downloading meta data for the video
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl :
-                    meta = ydl.extract_info(working_url,download=True)
+                    meta = ydl.extract_info(working_url,download=False)
                 temp_dict = dict()
                 # keep only the needed data
                 for key in meta_key:
@@ -54,14 +131,10 @@ def main():
                         temp_dict[key]=meta[key]
                 
                 temp_dict['date'] = datetime.datetime.today().strftime('%Y/%m/%d') # add date to know when the data was downloaded 
+                temp_dict['vignette'] = download_vignette(elt["id"]) 
                 # add those data to the db 
                 store_data(col3,temp_dict)
-                # updtading the video status 
                 update_data(col,elt['id'],"status_video","1") # say we only downloaded the video
-                # if elt['status'] == "ongoing" : # case there was no processing on this video
-                #     update_data(col,elt['id'],"status","ongoing_video") # say we only downloaded the video
-                # elif elt['status'] == "ongoing_commentaire" : # case comment where processed
-                #     update_data(col,elt['id'],"status","done") # as we downloaded the video we put done here 
             except :
                 update_data(col,elt['id'],"status_video","2")
 
