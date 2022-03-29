@@ -2,6 +2,7 @@ version: '2'
 
 services:
   db : 
+    # user: 37546:1001 # à utiliser uniquement sur le nas
     image: mongo
     restart: always 
     ports: 
