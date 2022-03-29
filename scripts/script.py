@@ -6,14 +6,16 @@ import urllib
 import re
 from logger import MyLogger
 import pandas as pd
-import os
 import json
 import youtube_dl
 import datetime
-import time
+import os
 
+
+
+file_path = "image/"
 # function to download the vignette
-def download_vignette(youtube_id):
+def download_json(youtube_id):
     # Téléchargement du contenu HTML de la page
     response = urllib.request.urlopen('https://www.youtube.com/watch?v=' + youtube_id)
     htmlContent = response.read().decode('UTF-8')
@@ -89,6 +91,15 @@ def download_vignette(youtube_id):
     oRes['storyboards'] = storyboards
     return oRes
 
+def download_vignette(oRes):
+    file_name = oRes["title"]
+    print(oRes["title"]+" depuis la fonction")
+    count = 0 
+    for elt in oRes['storyboards'][2]['images']:
+        urllib.request.urlretrieve(elt['url'],"image/"+file_name+"-"+str(count)+".png")
+        count +=1
+    print(os.listdir("image"))
+
 # main function to download youtube meta and the vignette
 def main():
     #reading of meta-key
@@ -131,7 +142,9 @@ def main():
                         temp_dict[key]=meta[key]
                 
                 temp_dict['date'] = datetime.datetime.today().strftime('%Y/%m/%d') # add date to know when the data was downloaded 
-                temp_dict['vignette'] = download_vignette(elt["id"]) 
+                oRes = download_json(elt["id"])
+                temp_dict['vignette'] =  oRes
+                download_vignette(oRes)
                 # add those data to the db 
                 store_data(col3,temp_dict)
                 update_data(col,elt['id'],"status_video","1") # say we only downloaded the video
