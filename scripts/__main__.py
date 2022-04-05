@@ -11,9 +11,12 @@ if __name__ == "__main__":
 	# main()
 	processor = [] # list that will contain all of our 8 process 
 	for k in range(1,9):
-		p = Process(target=main,args=(k,))   
-		p.start() # start of the process 
+		if k%2==0 : 
+			p = Process(target=sc.main,args=())   
+		else : 
+			p = Process(target=c.main,args=(k,))   
 		processor.append(p) # add this process to the list 
+		p.start() # start of the process 
 	
 	for elt in processor:
 		elt.join() # to end all processes
