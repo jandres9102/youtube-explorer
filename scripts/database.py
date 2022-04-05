@@ -19,7 +19,9 @@ def get_id(col):
     
 # function to store date in the Mongo database 
 def store_data(col,insert_values):
-    col.insert_one(insert_values)
+    # try to update data and if thos data doesn't exist we create it 
+    col.find_one_and_update(insert_values,{"$set" : insert_values},upsert=True)
+    
 
 # function to updtate a given value in the Mongo database 
 def update_data(col,video_id,field,value):
