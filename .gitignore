@@ -6,4 +6,7 @@ test.py
 __pycache__
 keys.txt
 scripts/comments.txt
-
+data/ 
+video
+image
+scripts/storyboard.py

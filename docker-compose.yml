@@ -1,15 +1,18 @@
-version: '2'
-
-services:
-  db : 
-    image: mongo
-    restart: always 
-    ports: 
-    - 27017:27017
-    
-  python_app: 
-    build :
-      context : .
-      dockerfile : Dockerfile
-    depends_on:
-      - db
+db : 
+  # user: 37546:1001 # à utiliser uniquement sur le nas
+  image: mongo
+  restart: always 
+  ports: 
+  - 27017:27017
+  volumes:
+  - ./data:/data/db
+  
+python_app: 
+  build : "."
+    # context : .
+    # dockerfile : Dockerfile
+  volumes: 
+  - /Users/kowsikan/ESIEE/E4/projet_E4/youtube-explorer/image:/work/image
+  links : 
+  - db
+  

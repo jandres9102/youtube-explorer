@@ -1,4 +1,0 @@
-fututre==0.18.2
-youtube-dl
-pymongo==4.0.1
-
