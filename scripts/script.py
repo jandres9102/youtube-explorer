@@ -113,6 +113,7 @@ def main():
     col3.drop() # à enlever ? 
     base_url = "https://www.youtube.com/watch?v="
 
+
     ydl_opts = {'outtmpl': './video/%(title)s.%(ext)s'} # replace './downloadedsongs/' by another path  
 
     # count the number of video to process 
@@ -154,6 +155,7 @@ def main():
         # update the remainig value to process 
         line_to_process = col.count_documents({'status_video':"0"}) 
        
+
         #     print('faillllllllllllllllllllllllllllllllllllll'+log.get_error_msg())
         # lf['last_inspection_date'][count_line] = time.time()
         # lf['debug_msg'][count_line] = log.get_debug_msg()
