@@ -1,0 +1,6 @@
+pymongo 
+youtube-dl 
+pandas
+future
+bs4
+flask
