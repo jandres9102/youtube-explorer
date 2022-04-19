@@ -1,5 +1,6 @@
 from skimage import io 
 import os
+from database import *
 
 from downloader import * 
 
@@ -21,6 +22,17 @@ def crop_image(oRes,image_path="image/"):
             output_image.append(img)
     return output_image
 
+def get_timecode(youtube_id):
+    """
+        Function that take the youtube id to get the oRes object and get the time when image where taken from oRes
+    """
+    col_meta = connect('db','meta')
+    oRes = col_meta.find_one({"id":youtube_id})
+    timecode = []
+    for vignette in oRes['storyboards'][0]["images"] : 
+        for sub_image in vignette["sub_images"]:
+            timecode.append(sub_image["timecode"])
+    return timecode
 
 if __name__ == "__main__":
     yt_vid_id = "ZVYaGfs80b0"
