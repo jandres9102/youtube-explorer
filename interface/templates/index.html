@@ -1,0 +1,26 @@
+{%extends 'base.html'%}
+{%block title%}{% endblock %}
+
+
+{%block content%}
+<style>
+  div{
+    width: 1190px;
+    margin: auto;
+  }
+  div a{
+    width: 290px;
+    margin: auto;
+  }
+  div a button{
+    width: 400px;
+    height: 100px;
+  }
+</style>
+
+<div class="d-grid gap-2 col-6 mx-auto">
+    <a class = 'nav-link' href="/choix"> <button class="btn btn-primary" type="button"  > Requête et base de données </button> </a>
+    <a class = 'nav-link' href="/visualisation" > <button class="btn btn-primary" type="button" > Visualisation </button> </a>
+  </div>
+
+{% endblock %}

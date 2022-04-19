@@ -10,3 +10,4 @@ data/
 video
 image
 scripts/storyboard.py
+result*.txt

@@ -5,9 +5,9 @@ COPY requirements.txt .
 
 RUN pip install -r requirements.txt && pip install https://github.com/egbertbouman/youtube-comment-downloader/archive/master.zip 
 
-ADD . /work
+ADD .. /work
 
 
-CMD [ "python3","-u","analyse/description.py" ]
+CMD [ "flask","run","--host","0.0.0.0","--port","5000" ]
 # CMD [ "python3","scripts/__main__.py" ]
 
