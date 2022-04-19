@@ -85,7 +85,7 @@ class AgeGenderPredictor:
                 if face_segm.shape[0] > 0 and face_segm.shape[1] > 0: 
                     gender, gender_confidence = self.predict(self.gender_model, face_segm, h, w)
                     age, age_confidence = self.predict(self.age_model, face_segm, h, w)
-                    ageResult= [age, age_confidence]
+                    ageResult= [age-5, age_confidence]
                     genderResult = [gender,gender_confidence]
                     gender = 'man' if gender == 1 else 'woman'
         return genderResult,ageResult
