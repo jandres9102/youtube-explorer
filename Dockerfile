@@ -1,4 +1,4 @@
-FROM python
+FROM python:bullseye
 
 WORKDIR /work 
 COPY requirements.txt .
@@ -8,5 +8,6 @@ RUN pip install -r requirements.txt && pip install https://github.com/egbertboum
 ADD . /work
 
 
-CMD [ "python3","scripts/__main__.py" ]
+CMD [ "python3","-u","analyse/description.py" ]
+# CMD [ "python3","scripts/__main__.py" ]
 
