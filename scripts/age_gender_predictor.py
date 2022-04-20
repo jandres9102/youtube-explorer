@@ -53,7 +53,7 @@ class AgeGenderPredictor:
                 manProb=manProb+prob
             else:
                 womanProb=womanProb+prob
-        gender= 'man' if manProb > 1 else 'woman'
+        gender= 'man' if manProb > womanProb else 'woman'
         for age,prob in ageArray:
             #age= age-5 if gender=='man' else age
             age=0 if len(ageArray)>1 and prob < 0.1  else age
