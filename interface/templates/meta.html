@@ -41,10 +41,6 @@
     {% for j in range(n1) %}
     <li class="list-group-item list-group-item-dark">{{liste1[j]}}</li>
     {% endfor %}
-    {% for j in range(n2) %}
-    <li class="list-group-item list-group-item-dark">{{liste2[j]}}</li>
-    {% endfor %}
-    
 </ul>
 
 {% for k in range(n) %}
@@ -65,23 +61,23 @@
             {% endif %}
         {% endif %}
         {% endfor %}
-    {% for j in range(n2) %}
-    {% if (k%2==0)%}
-        <li class="list-group-item list-group-item-warning">{{data[liste2[j]][k]}}</li>
-    {%else%}
-        <li class="list-group-item ">{{data[liste2[j]][k]}}</li>
-    {% endif %}
-    {% endfor %}
+        
+        {% if (k%2==0)%}
+            <li class="list-group-item list-group-item-warning"><li class="breadcrumb-item" style="margin-left: -162px ; position: relative;" > <a href="{{ url_for('page_detail',vari= data[liste1[0]][k])}}">Voir plus</a>  </li></li>
+        {%else%}
+            <li class="list-group-item "><li class="breadcrumb-item" style="margin-left: -162px ; position: relative;" > <a href="{{ url_for('page_detail',vari= data[liste1[0]][k])}}">Voir plus</a>  </li></li>
+        {% endif %}
 </ul>
-
 {% endfor %}
 </div>
 
 <script type="text/javascript">
+    
     function chercheuse(){
         let valider = document.getElementById('valider').value;
         window.location.href = "/requete/"+ valider;
     }
+
 </script>
 
 {% endblock %}

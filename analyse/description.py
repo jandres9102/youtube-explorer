@@ -132,7 +132,7 @@ def isSponso(youtube_id,file_num=10):
 
 def main(file_num = 10):
     """
-        Main function take in parameters the databse and col names
+        Main function 
         Return nothing. => Will read description and return the domain 
         name in video then increase the number of time the link was in a youtube description
     """
@@ -141,12 +141,10 @@ def main(file_num = 10):
     col_meta = connect('db','meta')
     col_link = connect('db','link')
     count = 0
-    print("Dans la fonction main")
     # count the number of video to process 
     line_to_process = col_id.count_documents({'status_description':"0"})
     while line_to_process > 0:
         elt = list(col_id.aggregate([{ "$sample": { "size": 1 } }]))[0] # elt est un objet qui contient les infos de la collection id
-        print(elt["id"])
         analyse = col_analyse.find_one({"id":elt["id"]}) # objet qui contient les infos dans la collection analyse pour la vidéo d'id 
         if elt["status_video"]=="1" and elt["status_description"]=="0":  # case where we downloaded meta data about the video
             description = col_meta.find_one({"id":elt["id"]})["description"]

@@ -4,3 +4,11 @@ pandas
 future
 bs4
 flask
+opencv-python
+torch 
+facenet-pytorch
+ffmpeg-python 
+matplotlib 
+scikit-image
+face_recognition
+ffprobe

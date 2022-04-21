@@ -1,0 +1,63 @@
+{%extends 'base.html'%}
+{%block title%} Voici notre base de donnée {% endblock %}
+
+
+{%block content%}
+
+<style>
+    .list-group-horizontal{
+        width: 10000px;
+    }
+    .list-group-item{
+        width: 250px;
+    }
+</style>
+
+<iframe width="560" height="315" src={{a}} title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen style="margin-left: 280px;"></iframe>
+
+
+<div style=" margin-left : -190px;margin-top: 50px;">
+    <ul class="list-group list-group-horizontal">
+        {% for j in range(n1) %}
+        <li class="list-group-item list-group-item-dark">{{liste1[j]}}</li>
+        {% endfor %}
+    </ul>
+    
+    {% for k in range(n) %}
+    
+    <ul class="list-group list-group-horizontal ">
+        {% for j in range(n1) %}
+                    <li class="list-group-item " style="width: 250px;">{{data[liste1[j]][k]}}</li>
+            {% endfor %}
+    </ul>
+    {% endfor %}
+</div>
+
+
+
+<div style=" margin-left : -90px; margin-top: 70px;">
+
+    <ul class="list-group list-group-horizontal">
+        {% for j in range(1,nbr_col2) %}
+        <li class="list-group-item list-group-item-dark">{{cle2[j]}}</li>
+        {% endfor %}
+    </ul>
+    
+    {% for k in range(n2) %}
+    
+    <ul class="list-group list-group-horizontal ">
+        {% for j in range(1,nbr_col2) %}
+        {% if (k%2==0)%}
+            <li class="list-group-item list-group-item-warning">{{liste2[k][j]}}</li>
+        {%else%}
+            <li class="list-group-item ">{{liste2[k][j]}}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    
+    {% endfor %}
+</div>
+
+
+
+{% endblock %}

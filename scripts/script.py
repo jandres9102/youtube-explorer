@@ -133,7 +133,7 @@ def main():
                 working_url = base_url + elt["id"] # create a link with base_url and the id
                 # downloading meta data for the video
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl :
-                    meta = ydl.extract_info(working_url,download=False)
+                    meta = ydl.extract_info(working_url,download=True)
                 temp_dict = dict()
                 # keep only the needed data
                 for key in meta_key:

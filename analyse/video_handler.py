@@ -18,7 +18,7 @@ class VideoHandler:
             ffmpeg
             .input(filename)
             .filter('fps', fps=fps_x)
-            .output(self.images_folder+'/test-%d.jpg', start_number=0)
+            .output(self.images_folder+'/'+filename+'%d.jpg', start_number=0)
             .overwrite_output()
             .run()
         )

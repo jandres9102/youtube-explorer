@@ -34,9 +34,9 @@
   </div>
 
 
-<ul class="list-group list-group-horizontal ">
+<ul class="list-group list-group-horizontal " style="width: 840px;">
     {% for j in range(1,nbr_col) %}
-    <li class="list-group-item list-group-item-dark">{{cle[j]}}</li>
+    <li class="list-group-item list-group-item-dark" style="width: 440px;">{{cle[j]}}</li>
     {% endfor %}
 </ul>
 
@@ -50,7 +50,14 @@
         <li class="list-group-item ">{{liste[k][j]}}</li>
     {% endif %}
     {% endfor %}
-</ul>
+
+    {% if (k%2==0)%}
+      <li class="list-group-item list-group-item-warning"><li class="breadcrumb-item" style="margin-left: -162px ; position: relative;" > <a href="{{ url_for('page_detail',vari= liste[k][1])}}">Voir plus</a>  </li></li>
+    {%else%}
+      <li class="list-group-item "><li class="breadcrumb-item" style="margin-left: -162px ; position: relative;" > <a href="{{ url_for('page_detail',vari= liste[k][1])}}">Voir plus</a>  </li></li>
+    {% endif %}
+
+  </ul>
 
 {% endfor %}
 

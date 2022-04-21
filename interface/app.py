@@ -10,6 +10,8 @@ col_meta = db["meta"]
 
 #### from flask import Flask, request, render_template
 
+#### from flask import Flask, request, render_template
+
 app = Flask(__name__)
 
 @app.route('/')
@@ -53,16 +55,9 @@ def meta():
         valeur.append(element)
         nbr_cle = len(m)
     df = pd.DataFrame (valeur, columns = m)
-    liste1 =['id','thumbnail','title','channel',"categories", "date","description" ]
+    liste1 =['id','thumbnail','title','channel',"categories", "date","description","duration","like_count","view_count", "upload_date" ]
     n1 = len(liste1)
-    liste2=[]
-    for k in m:
-        if k in liste1:
-            next
-        else:
-            liste2.append(k)
-    n2 = len(liste2)
-    return render_template('meta.html', n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur, liste1 = liste1, liste2 = liste2,n1 = n1 , n2=n2, data= df )
+    return render_template('meta.html', n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur, liste1 = liste1,n1 = n1 , data= df )
 
 @app.route('/com', methods=['GET','POST'])
 def com():
@@ -100,6 +95,43 @@ def requete(valider):
     except:
         next
 
+@app.route('/req/<vari>')
+def page_detail(vari):
+    
+    a = 'https://www.youtube.com/embed/'
+    a+=vari
+    
+    nombre_ligne = len(list(col_meta.find({'id':vari})))
+    cur = col_meta.find({'id':vari})
+    cur = list(cur)
+    valeur=[]
+    for dic in cur:
+        m = []
+        element = []
+        for cle,val in dic.items():
+            m.append(cle)
+            element.append(val)
+        valeur.append(element)
+        nbr_cle = len(m)
+    df = pd.DataFrame (valeur, columns = m)
+    liste1 =['title','channel',"categories","description","duration","like_count","view_count", "upload_date","age_limit","tags" ]
+    n1 = len(liste1)
+    
+    
+    nombre_ligne2 = len(list(col_com.find({'video_id':vari})))
+    cur = col_com.find({'video_id':vari})
+    cur = list(cur)
+    valeur2=[]
+    for dic in cur:
+        m2 = []
+        element2 = []
+        for cle,val in dic.items():
+            m2.append(cle)
+            element2.append(val)
+        valeur2.append(element2)
+        nbr_cle2 = len(m2)
+        
+    return render_template('page.html',a = a, n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur, liste1 = liste1,n1 = n1 , data= df,n2 = nombre_ligne2, cle2 = m2, nbr_col2 = nbr_cle2, liste2 = valeur2 )
 
 @app.route('/visualisation')
 def visualisation():
