@@ -11,7 +11,7 @@ csv_read = pd.read_csv(Path('scripts/2021_10_08_video_ids.csv').absolute(), sep 
 col.drop()
 
 
-for idx in csv_read['video_id'][:2]:
+for idx in csv_read['video_id'][:1]:
      store_data(col,{"id":idx,"status_video":"0","status_commentaire":"0","label":0,"status_description":"0","status_image":"0"}) # status will be used to know if we download data 
 
 if __name__ == "__main__":
