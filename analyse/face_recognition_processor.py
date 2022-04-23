@@ -8,10 +8,10 @@ class FaceRecognitionProcessor:
 
 
     def __init__(self, imagesFolder, facesFolder):
-        
         self.images_folder = imagesFolder
         if not os.path.isdir(facesFolder):
             os.mkdir(facesFolder)
+            os.chmod(facesFolder, 436)
         self.faces_folder= facesFolder
 
 

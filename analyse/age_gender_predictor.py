@@ -69,10 +69,12 @@ class AgeGenderPredictor:
     def gender_age_reco(self, subImg, mtcnn, checkFirstFace):
         faces, _ = mtcnn.detect(subImg)
         h, w = [224,224]
-        if(checkFirstFace):
-            faces=[faces[0]]
         descImg=''
+        genderResult=[]
+        ageResult=[]
         if faces is not None:
+            if(checkFirstFace):
+                faces=[faces[0]]
             cont=0
             faces[0]
             frame_rgb = cv2.cvtColor(subImg, cv2.COLOR_BGR2RGB)
@@ -105,7 +107,8 @@ class AgeGenderPredictor:
                         mtcnn = MTCNN(keep_all=False, device=self.device)
                         image=io.imread(os.path.join(img_folder,img.name))
                         gRes, ageRes = self.gender_age_reco(image, mtcnn, True)
-                        arrayAge.append(ageRes)
-                        arrayGender.append(gRes)
+                        if len(gRes) > 0 and len(ageRes) > 0:
+                            arrayAge.append(ageRes)
+                            arrayGender.append(gRes)
                     results.append(self.processResults(arrayGender,arrayAge))
         return results

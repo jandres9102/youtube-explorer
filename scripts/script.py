@@ -114,10 +114,7 @@ def main():
     base_url = "https://www.youtube.com/watch?v="
 
 
-    ydl_opts = {
-        'outtmpl': './video/%(title)s.%(ext)s',
-        'format': 'mp4',      
-        } # replace './downloadedsongs/' by another path  
+     
 
     # count the number of video to process 
     line_to_process = col.count_documents({'status_video':"0"})
@@ -135,6 +132,10 @@ def main():
             try:
                 working_url = base_url + elt["id"] # create a link with base_url and the id
                 # downloading meta data for the video
+                ydl_opts = {
+                    'outtmpl': './video/'+elt["id"]+'.%(ext)s',
+                    'format': 'mp4',      
+                    } # replace './downloadedsongs/' by another path 
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl :
                     meta = ydl.extract_info(working_url,download=True)
                 temp_dict = dict()

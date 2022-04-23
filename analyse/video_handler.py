@@ -10,7 +10,12 @@ class VideoHandler:
         self.video_path = videoPath
         if not os.path.isdir(imagesFolder):
             os.mkdir(imagesFolder)
+            os.chmod(imagesFolder, 436)
+        path = os.getcwd()
+        print(path)
+        print(os.listdir())
         self.images_folder= imagesFolder
+
 
 
     def spliter(self,filename,fps_x):
@@ -18,7 +23,7 @@ class VideoHandler:
             ffmpeg
             .input(filename)
             .filter('fps', fps=fps_x)
-            .output(self.images_folder+'/'+filename+'%d.jpg', start_number=0)
+            .output(self.images_folder+'/test-%d.jpg', start_number=0)
             .overwrite_output()
             .run()
         )
@@ -33,5 +38,7 @@ class VideoHandler:
         return  fps
 
     def get_video_images(self):
+        print('desasdsd')
+        print(self.video_path)
         fps_x = self.find_just_fps(self.video_path)
         self.spliter(self.video_path,fps_x)

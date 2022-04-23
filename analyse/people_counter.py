@@ -20,7 +20,7 @@ MARGIN = 0.7
 #On charge toutes les images     
 def loader(name_folder):
     loaded_images = []
-    image_filenames = filter(lambda x: x.endswith('.png'), os.listdir(name_folder+'/'))
+    image_filenames = filter(lambda x: x.endswith('.jpg'), os.listdir(name_folder+'/'))
     paths_to_images = [name_folder+'/' + x for x in image_filenames]
     for image in paths_to_images:
         d = face_recognition.load_image_file(image)
@@ -33,10 +33,8 @@ def encodeur(loaded_images):
     for image in loaded_images:
         d = face_recognition.face_encodings(image,model = 'cnn')
         if d == []:
-            #print('erreur')
             next
         else:
-            #print('ok')
             d = d[0]
             vis_encoder.append(d)
     return vis_encoder
@@ -48,7 +46,6 @@ def counter(set_photo, margin = MARGIN):
     ind = [k for k in range(len(set_photo))]
     L = []
     while len(set_photo)>0:
-        #print('je suis la')
         lp = []
         lind = []
         lp.append(set_photo.pop(0))
@@ -56,27 +53,28 @@ def counter(set_photo, margin = MARGIN):
         k = 0
         while k<len(set_photo):
             if face_recognition.face_distance(lp, set_photo[k])[0]<margin:
-                #print('c good')
                 lind.append(ind[k])
                 lp.append(set_photo[k])
                 set_photo.pop(k)
                 ind.pop(k)
             else :
-                #print('nul')
                 k = k+1
         L.append(lind)
         l.append(lp)
     return len(l),L
     
  
-def save(index_vis, name_folder):
-    image_filenames = filter(lambda x: x.endswith('.png'), os.listdir(name_folder+'/'))
+def save(index_vis, name_folder,people_folder):
+    image_filenames = filter(lambda x: x.endswith('.jpg'), os.listdir(name_folder+'/'))
     paths_to_images = [name_folder+'/' + x for x in image_filenames]
+    os.system('mkdir ' +people_folder)
     for k in range(len(index_vis)):
-        os.system('mkdir ' +'dir_per-'+str(k))
+        os.system('mkdir ' +people_folder+'/dir_per-'+str(k))
         for val in index_vis[k]:
             int = val
             img = paths_to_images[int]
             img = Image.open(img)
-            img.save('dir_per-'+str(k)+'/'+str(int)+'.jpeg')
-            #plt.figure()
+            img.save(people_folder+'/dir_per-'+str(k)+'/'+str(int)+'.jpg')
+            plt.figure()
+            plt.title(people_folder+'/dir_per-'+str(k)+'/'+str(int)+'.jpg')
+            plt.imshow(img)
