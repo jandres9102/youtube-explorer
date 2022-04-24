@@ -139,6 +139,7 @@ def main():
                 with youtube_dl.YoutubeDL(ydl_opts) as ydl :
                     meta = ydl.extract_info(working_url,download=True)
                 temp_dict = dict()
+                temp_dict["id"] = elt["id"]
                 # keep only the needed data
                 for key in meta_key:
                     if key not in meta.keys():

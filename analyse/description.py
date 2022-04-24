@@ -185,8 +185,8 @@ def main(file_num = 10):
 # for idx in ids: 
 #     video_dic = {"id":idx,"status_video":"1","status_commentaire":"0","label":0,"status_description":"0","status_image":"0"}
 #     col_id.insert_one(video_dic)
-
-main()
+if __name__=='__main__':
+    main()
 # raw_url = get_raw_url(description_manga)
 # domain = get_domain(raw_url)
 # print(raw_url)
