@@ -39,12 +39,12 @@ def main(file_number = 10):
         for vid in videos:
             if vid.name != '.DS_Store': 
                 video_id = vid.name.split(".")[0]
-                print("print video : "+video_id)
+                # print("print video : "+video_id)
                 elt_meta = list(col_meta.find({"id":video_id})) # elt est un objet qui contient les infos de la collection id
                 if len(elt_meta)==0:
                     elt_meta =list(col_meta.find({"title":video_id}))
                 # print(elt_meta)
-                print(elt_meta[0]["id"])
+                # print(elt_meta[0]["id"])
                 elt = list(col_id.find({"id":elt_meta[0]["id"]}))[0]
                 # print(elt)
                 update_data(col_id,elt["id"],"status_image","1")
@@ -69,7 +69,7 @@ def main(file_number = 10):
                     ageModel=['models/age','dex_chalearn_iccv2015.caffemodel','age.prototxt']
                     #declaring an object to charge these models
                     aGenPred= age.AgeGenderPredictor(genderModel,ageModel)
-                    print(aGenPred.get_people_age_gender('./processor-img/people'))
+                    # print(aGenPred.get_people_age_gender('./processor-img/people'))
                     
                     update_data(col_analyse,elt["id"],"gender",aGenPred.get_people_age_gender('./processor-img/people'))
                     shutil.rmtree('processor-img')

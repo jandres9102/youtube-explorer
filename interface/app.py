@@ -7,6 +7,8 @@ db = client['db']
 col_id = db['id']
 col_com = db['commentaire']
 col_meta = db["meta"]
+col_analyse = db["analyse"]
+col_link = db["link"]
 
 #### from flask import Flask, request, render_template
 
@@ -76,6 +78,45 @@ def com():
         nbr_cle = len(m)
     return render_template('com.html', n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur)
 
+@app.route('/analyse', methods=['GET','POST'])
+def analyse():
+    nombre_ligne = len(list(col_analyse.find({})))
+    cur = col_analyse.find({})
+    cur = list(cur)
+    valeur=[]
+    for dic in cur:
+        m = []
+        element = []
+        for cle,val in dic.items():
+            m.append(cle)
+            if cle=="links" and val==None:
+                val = "pas de lien"
+            element.append(val)
+        if m.count("links") == 0:
+            m.insert(len(m)-1,"links")
+            element.insert(len(element)-1,"pas de lien")
+    
+        valeur.append(element)
+        nbr_cle = len(m)
+    return render_template('analyse.html', n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur)
+
+@app.route('/link', methods=['GET','POST'])
+def link():
+    nombre_ligne = len(list(col_link.find({})))
+    cur = col_link.find({})
+    cur = list(cur)
+    valeur=[]
+    for dic in cur:
+        m = []
+        element = []
+        for cle,val in dic.items():
+            m.append(cle)
+            element.append(val)
+        valeur.append(element)
+        nbr_cle = len(m)
+    return render_template('link.html', n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur)
+
+
 @app.route('/requete/<valider>')
 def requete(valider):
     try :
@@ -138,4 +179,4 @@ def visualisation():
     return render_template('visualisation.html')
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
