@@ -158,7 +158,25 @@ def page_detail(vari):
     liste1 =['title','channel',"categories","description","duration","like_count","view_count", "upload_date","age_limit","tags" ]
     n1 = len(liste1)
     
+    nombre_ligne3 = len(list(col_analyse.find({'id':vari})))
+    cur3 = col_analyse.find({'id':vari})
+    cur3 = list(cur3)
+    valeur3=[]
+    for dic in cur3:
+        m3 = []
+        element3 = []
+        for cle,val in dic.items():
+            m3.append(cle)
+            if cle=="links" and val==None:
+                val = "pas de lien"
+            element3.append(val)
+        if m3.count("links") == 0:
+            m3.insert(len(m3)-1,"links")
+            element3.insert(len(element3)-1,"pas de lien")
     
+        valeur3.append(element3)
+        nbr_cle3 = len(m3)
+
     nombre_ligne2 = len(list(col_com.find({'video_id':vari})))
     cur = col_com.find({'video_id':vari})
     cur = list(cur)
@@ -172,7 +190,7 @@ def page_detail(vari):
         valeur2.append(element2)
         nbr_cle2 = len(m2)
         
-    return render_template('page.html',a = a, n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur, liste1 = liste1,n1 = n1 , data= df,n2 = nombre_ligne2, cle2 = m2, nbr_col2 = nbr_cle2, liste2 = valeur2 )
+    return render_template('page.html',a = a, n = nombre_ligne, cle = m, nbr_col = nbr_cle, liste = valeur, liste1 = liste1,n1 = n1 , data= df, n2 = nombre_ligne2, cle2 = m2, nbr_col2 = nbr_cle2, liste2 = valeur2, n3 = nombre_ligne3, cle3 = m3, nbr_col3 = nbr_cle3, liste3 = valeur3 )
 
 @app.route('/visualisation')
 def visualisation():

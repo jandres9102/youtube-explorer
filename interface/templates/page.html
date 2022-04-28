@@ -38,6 +38,29 @@
 <div style=" margin-left : -90px; margin-top: 70px;">
 
     <ul class="list-group list-group-horizontal">
+        {% for j in range(1,nbr_col3) %}
+        <li class="list-group-item list-group-item-dark">{{cle3[j]}}</li>
+        {% endfor %}
+    </ul>
+    
+    {% for k in range(n3) %}
+    
+    <ul class="list-group list-group-horizontal ">
+        {% for j in range(1,nbr_col3) %}
+        {% if (k%2==0)%}
+            <li class="list-group-item list-group-item-warning">{{liste3[k][j]}}</li>
+        {%else%}
+            <li class="list-group-item ">{{liste3[k][j]}}</li>
+        {% endif %}
+        {% endfor %}
+    </ul>
+    
+    {% endfor %}
+</div>
+
+<div style=" margin-left : -90px; margin-top: 70px;">
+
+    <ul class="list-group list-group-horizontal">
         {% for j in range(1,nbr_col2) %}
         <li class="list-group-item list-group-item-dark">{{cle2[j]}}</li>
         {% endfor %}

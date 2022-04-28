@@ -3,6 +3,7 @@
 Ce projet a été réalisé dans le cadre d'un projet à ESIEE Paris sous la supervison de Jean-François Bercher et Romain Negrel.  
 
 Les membres du groupes sont : 
+-  Raphaëlle JALLAT
 -  Mélissa MEKKI DAOUADJI  
 -  Raphaëlle JALLAT
 -  Vithulaksan NAGULESWARAN
@@ -10,6 +11,7 @@ Les membres du groupes sont :
 -  Haïtham SOUEF
 -  Andres VILLARRAGA MORALES
 ## Pré requis
+-  Avoir la version ```1.xx``` de docker-compose
 -  Il faut dans un premier temps téléchager le fichier csv contenant les différents identifiants des vidéos Youtube. Il faut le nommer ```2021_10_08_video_ids.csv``` et le mettre dans le dossier ```scripts``` . 
 -  Remplacer les chemins d'accès dans le fichier ```docker-compose-scripts.yml``` respectivement   
 ```/Path/to/youtube-explorer/image:/work/image``` (ligne 15)  
