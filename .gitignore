@@ -9,4 +9,10 @@ scripts/comments.txt
 data/ 
 video
 image
+images
+models
 scripts/storyboard.py
+result*.txt
+*.mp4 
+models
+*.zip 

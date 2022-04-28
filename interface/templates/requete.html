@@ -1,0 +1,64 @@
+{%extends 'base.html'%}
+{%block title%} Voici notre base de donnée {% endblock %}
+
+
+{%block content%}
+<style>
+    .list-group-horizontal{
+        width: 1000px;
+    }
+    .list-group-item{
+        width: 376px;
+    }
+</style>
+
+<div class="d-grid gap-2 d-md-block" style="margin-bottom: 20px;">
+    <input class="btn btn-primary" type="submit" name="id" value="id" style="width: 150px; margin-left: 270px;">
+    <input class="btn btn-primary" type="submit" name="meta" value="meta" style="width: 150px;" >
+    <input class="btn btn-primary" type="submit" name="commentaire" value="commentaire"  style="width: 150px;">
+    <!-- <button class="btn btn-primary" type="button" style="width: 150px; margin-left: 270px;" value="id" id="floatingSelectGrid1">Id</button>
+    <button class="btn btn-primary" type="button" style="width: 150px;"  value="meta" name="meta">Métadonnées</button>
+    <button class="btn btn-primary" type="button" style="width: 150px;"  value="commentaire" name="comme">Commentaire</button> -->
+  </div>
+
+
+<ul class="list-group list-group-horizontal">
+    {% for j in range(1,nbr_col) %}
+    <li class="list-group-item">{{cle[j]}}</li>
+    {% endfor %}
+</ul>
+
+{% for k in range(n) %}
+
+<ul class="list-group list-group-horizontal">
+    {% for j in range(1,nbr_col) %}
+    <li class="list-group-item">{{liste[k][j]}}</li>
+    {% endfor %}
+</ul>
+
+{% endfor %}
+
+<!-- <script>
+    function chercheuse1(){         
+        let id = document.getElementById("floatingSelectGrid1").value;                                                   
+        window.location.href = "/req/"+id;
+    }
+</script>
+
+<script>
+    function chercheuse2(){      
+        let meta = document.getElementById("floatingSelectGrid2").value;                                                      
+        window.location.href = "/req/"+meta;
+    }
+</script>
+
+<script>
+    function chercheuse3(){     
+        let commentaire = document.getElementById("floatingSelectGrid3").value;                                                       
+        window.location.href = "/req/"+commentaire;
+    }
+</script> -->
+
+
+
+{% endblock %}
