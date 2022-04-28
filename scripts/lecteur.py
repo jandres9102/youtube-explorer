@@ -12,7 +12,7 @@ col.drop()
 
 
 for idx in csv_read['video_id'][:3]:
-     store_data(col,{"id":idx,"status_video":"0","status_commentaire":"0","label":0}) # status will be used to know if we download data 
+     store_data(col,{"id":idx,"status_video":"0","status_commentaire":"0","label":0,"status_description":"0","status_image":"0"}) # status will be used to know if we download data 
 
 
 if __name__ == "__main__":

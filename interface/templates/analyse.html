@@ -1,0 +1,74 @@
+{%extends 'base.html'%}
+{%block title%} Voici notre base de donnée {% endblock %}
+
+
+{%block content%}
+<style>
+    .list-group-horizontal{
+        width: 10000px;
+    }
+    .list-group-item{
+        width: 500px;
+    }
+    
+   
+</style>
+
+
+<div class="input-group" style="margin-bottom: 40px;">
+    <input type="text" class="form-control" aria-label="Text input with segmented dropdown button" id="valider">
+    <button type="button" class="btn btn-outline-secondary" type="submit" onclick="chercheuse()">Valider</button>
+    <button type="button" class="btn btn-outline-secondary dropdown-toggle dropdown-toggle-split" data-bs-toggle="dropdown" aria-expanded="false">
+      <span class="visually-hidden">Toggle Dropdown</span>
+    </button>
+    <ul class="dropdown-menu dropdown-menu-end">
+      <li><a class="dropdown-item" href="#">Action</a></li>
+      <li><a class="dropdown-item" href="#">Another action</a></li>
+      <li><a class="dropdown-item" href="#">Something else here</a></li>
+      <li><hr class="dropdown-divider"></li>
+      <li><a class="dropdown-item" href="#">Separated link</a></li>
+    </ul>
+  </div>
+  
+
+<div class="d-grid gap-2 d-md-block" style="margin-bottom: 20px;">
+    <a href='/id' ><button class="btn btn-primary" type="button" style="width: 150px; margin-left: 50px;" value="id" id="floatingSelectGrid1" >Id</button></a>
+    <a href='/meta' ><button class="btn btn-primary" type="button" style="width: 150px;"  value="meta" name="meta" >Métadonnées</button></a>
+    <a href='/com' ><button class="btn btn-primary" type="button" style="width: 150px;"  value="commentaire" name="com" >Commentaires</button></a>
+    <a href='/analyse' ><button class="btn btn-primary" type="button" style="width: 150px;"  value="commentaire" name="com" >Analyse</button></a>
+    <a href='/link' ><button class="btn btn-primary" type="button" style="width: 150px;"  value="commentaire" name="com" >Link</button></a>
+</div>
+
+<div style=" margin-left : -190px;">
+
+<ul class="list-group list-group-horizontal">
+    {% for j in range(1,nbr_col) %}
+    <li class="list-group-item list-group-item-dark">{{cle[j]}}</li>
+    {% endfor %}
+</ul>
+
+{% for k in range(n) %}
+
+<ul class="list-group list-group-horizontal ">
+    {% for j in range(1,nbr_col) %}
+    {% if (k%2==0)%}
+        <li class="list-group-item list-group-item-warning">{{liste[k][j]}}</li>
+    {%else%}
+        <li class="list-group-item ">{{liste[k][j]}}</li>
+    {% endif %}
+    {% endfor %}
+</ul>
+
+{% endfor %}
+</div>
+
+
+
+<script type="text/javascript">
+    function chercheuse(){
+        let valider = document.getElementById('valider').value;
+        window.location.href = "/requete/"+ valider;
+    }
+</script>
+
+{% endblock %}

@@ -13,6 +13,7 @@ python_app:
     # dockerfile : Dockerfile
   volumes: 
   - /Users/kowsikan/ESIEE/E4/projet_E4/youtube-explorer/image:/work/image
+  - /Users/kowsikan/ESIEE/E4/projet_E4/youtube-explorer/video:/work/video
   links : 
   - db
   
