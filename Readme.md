@@ -5,7 +5,6 @@ Ce projet a été réalisé dans le cadre d'un projet à ESIEE Paris sous la sup
 Les membres du groupes sont : 
 -  Raphaëlle JALLAT
 -  Mélissa MEKKI DAOUADJI  
--  Raphaëlle JALLAT
 -  Vithulaksan NAGULESWARAN
 -  Julien RAVINDRARASA
 -  Haïtham SOUEF
